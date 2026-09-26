@@ -1933,6 +1933,10 @@ let pendingBars    = Array.prototype.slice.call(document.querySelectorAll('.bar'
 let pendingStats   = Array.prototype.slice.call(document.querySelectorAll('.stat b'));
 
 function animateStat(el){
+  // Prevent double animation
+  if (el.dataset.counted === '1') return;
+  el.dataset.counted = '1';
+
   const target = parseInt(el.dataset.count, 10) || 0;
   const suffix = el.dataset.suffix || '';
   if (reduce){ el.textContent = target + suffix; return; }
@@ -1949,7 +1953,8 @@ function animateStat(el){
 
 function checkInView(){
   const vh = window.innerHeight || document.documentElement.clientHeight;
-  const trigger = vh - 30;
+  // FIX: never allow trigger to go negative on short viewports
+  const trigger = Math.max(vh * 0.92, 1);
 
   for (let i = pendingReveals.length - 1; i >= 0; i--){
     const el = pendingReveals[i];
@@ -2008,15 +2013,19 @@ setTimeout(checkInView, 350);
 setTimeout(checkInView, 1200);
 setTimeout(checkInView, 2500);
 
+/* Fallback: force-show everything after 6s (clears pending arrays + marks stats counted) */
 setTimeout(() => {
   document.querySelectorAll('.reveal:not(.show)').forEach(el => el.classList.add('show'));
   document.querySelectorAll('.bar:not(.in)').forEach(el => el.classList.add('in'));
   document.querySelectorAll('.stat b').forEach(el => {
-    if (!el.dataset.counted){
+    if (el.dataset.counted !== '1'){
       el.dataset.counted = '1';
       el.textContent = (el.dataset.count || '0') + (el.dataset.suffix || '');
     }
   });
+  pendingReveals = [];
+  pendingBars = [];
+  pendingStats = [];
 }, 6000);
 
 /* ================= CARD 3D TILT (desktop pointer only) ================= */
