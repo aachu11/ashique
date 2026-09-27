@@ -38,22 +38,31 @@
   margin:0;padding:0;box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
+
+/* ============ FIX 1: ROOT — no overflow-x:hidden ============ */
 html{
   scroll-behavior:smooth;
   scroll-padding-top:90px;
   background:var(--bg);
   -webkit-text-size-adjust:100%;
   text-size-adjust:100%;
-  overflow-x:hidden;
+  /* overflow-x:hidden REMOVED — it turned <html> into a scroll container
+     and broke trackpad / momentum scrolling */
 }
+
+/* ============ FIX 2: BODY — clip instead of hidden, no overscroll lock ============ */
 body{
   font-family:var(--sans);
   color:var(--text);
   line-height:1.65;
-  background:var(--bg);
-  overflow-x:hidden;
+  background:transparent;      /* was var(--bg) — let <html> paint the base colour
+                                  so the fixed negative-z FX layers stay visible */
+  overflow-x:clip;             /* `clip` clips without creating a scroll container.
+                                  `hidden` forced overflow-y:auto on body and made
+                                  wheel/trackpad events get swallowed. */
   -webkit-font-smoothing:antialiased;
-  overscroll-behavior-y:none;
+  /* overscroll-behavior-y:none REMOVED — Chrome propagates this from <body>
+     to the viewport, which killed scroll-chaining from trackpad gestures */
 }
 
 /* ============ BACKGROUND FX (desktop) ============ */
@@ -91,6 +100,7 @@ img{max-width:100%;display:block}
   background:linear-gradient(90deg,var(--red-dark),var(--red),var(--red-2));
   box-shadow:0 0 12px rgba(255,43,61,.8);
   transition:width .1s linear;
+  pointer-events:none;   /* FIX 3: was intercepting clicks at the very top */
 }
 
 /* ============ FLOATING WHATSAPP BUTTON ============ */
@@ -930,14 +940,15 @@ footer{
   body::before,
   body::after{ display:none; }
 
-  body{
+  /* FIX: background gradients moved from <body> to <html> so they are
+     not hidden behind the body's own background layer */
+  html{
     background-color:var(--bg);
     background-image:
       radial-gradient(560px circle at 15% 0%,   rgba(255,43,61,.16), transparent 62%),
       radial-gradient(640px circle at 92% 14%,  rgba(255,43,61,.08), transparent 62%),
       radial-gradient(620px circle at 50% 42%,  rgba(255,43,61,.05), transparent 62%);
     background-repeat:no-repeat;
-    background-attachment:scroll;
   }
 
   .nav.scrolled{
