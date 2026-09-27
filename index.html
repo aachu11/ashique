@@ -964,7 +964,7 @@ footer{
     transform:translateX(100%);
     visibility:hidden;
     pointer-events:none;
-    z-index:190;                 /* above floating WhatsApp button */
+    z-index:190;
     transition:
       transform .4s cubic-bezier(.2,.8,.2,1),
       visibility 0s .4s;
@@ -1048,7 +1048,6 @@ footer{
   .lm-shield,.lm-bolt,.lm-inner,.lm-orbit{animation:none}
   .lm-shield{stroke-dashoffset:0;opacity:1}
 
-  /* floating WhatsApp: keep the pulse, drop the tooltip */
   .wa-float{ width:54px; height:54px; }
   .wa-float svg{ width:27px; height:27px; }
   .wa-float::after{ display:none; }
@@ -1125,7 +1124,6 @@ footer{
 <div class="progress" id="progress"></div>
 
 <!-- ================= FLOATING WHATSAPP ================= -->
-<!-- ✏️ EDIT phone number in the href below (country code + number, no spaces) -->
 <a class="wa-float"
    href="https://wa.me/919745546653?text=Hi%20MUHAMMED%20ASHIQUE%20P%20N%2C%20I%27d%20like%20to%20discuss%20a%20security%20project."
    target="_blank"
@@ -1580,7 +1578,6 @@ footer{
     <div class="contact-grid">
       <div class="contact-cards reveal">
 
-        <!-- ✏️ WhatsApp primary CTA — replace the phone in the href below -->
         <a class="wa-cta"
            href="https://wa.me/919745546653?text=Hi%20MUHAMMED%20ASHIQUE%20P%20N%2C%20I%27d%20like%20to%20discuss%20a%20security%20project."
            target="_blank" rel="noopener noreferrer">
@@ -1606,13 +1603,13 @@ footer{
           </div>
         </a>
 
-        <a class="c-item" href="mailto:ashiqmuhammed@example.com">
+        <a class="c-item" href="mailto:ashiqueaachu2006@gmail.com">
           <span class="c-ico">
             <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
           </span>
           <div>
             <small>Email</small>
-            <strong>ashiqmuhammed@example.com</strong>
+            <strong>ashiqueaachu2006@gmail.com</strong>
           </div>
         </a>
 
@@ -2056,7 +2053,6 @@ if (!reduce && !isMobile && window.matchMedia('(hover:hover)').matches){
     });
   });
 
-  /* WhatsApp CTA cursor glow */
   document.querySelectorAll('.wa-cta').forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const r = btn.getBoundingClientRect();
@@ -2067,8 +2063,7 @@ if (!reduce && !isMobile && window.matchMedia('(hover:hover)').matches){
 }
 
 /* ================= CONTACT FORM (mailto) ================= */
-/* ✏️ EDIT: put your real email below */
-const CONTACT_EMAIL = 'ashiqmuhammed@example.com';
+const CONTACT_EMAIL = 'ashiqueaachu2006@gmail.com';
 
 document.getElementById('contactForm').addEventListener('submit', (e) => {
   e.preventDefault();
